@@ -1,0 +1,16 @@
+Java Problems
+
+For each of the numbered problems:
+- State whether the problem occurs at compile-time or run-time
+- Briefly describe what the problem is in plain English
+
+1.
+2.
+3.
+4.
+5.
+6.
+7.
+8.
+9.
+10.
