@@ -26,9 +26,9 @@ public class QuickSort {
      */
     public static ArrayList<Tripod> partitionLess(ArrayList<Tripod> data, Tripod pivot) {
         ArrayList<Tripod> less_tripods = new ArrayList<>();
-        for (int i = 0; i < data.size(); i++) {
-            if (data.get(i).sum() < pivot.sum()) {
-                less_tripods.add(data.get(i));
+        for (Tripod datum : data) {
+            if (datum.sum() < pivot.sum()) {
+                less_tripods.add(datum);
             }
         }
         return less_tripods;
@@ -43,9 +43,9 @@ public class QuickSort {
      */
     public static ArrayList<Tripod> partitionEqual(ArrayList<Tripod> data, Tripod pivot) {
         ArrayList<Tripod> equal_tripods = new ArrayList<>();
-        for (int i = 0; i < data.size(); i++) {
-            if (data.get(i).sum() == pivot.sum()) {
-                equal_tripods.add(data.get(i));
+        for (Tripod datum : data) {
+            if (datum.sum() == pivot.sum()) {
+                equal_tripods.add(datum);
             }
         }
         return equal_tripods;
@@ -59,9 +59,9 @@ public class QuickSort {
      */
     public static ArrayList<Tripod> partitionGreater(ArrayList<Tripod> data, Tripod pivot) {
         ArrayList<Tripod> greater_tripods = new ArrayList<>();
-        for (int i = 0; i < data.size(); i++) {
-            if (data.get(i).sum() > pivot.sum()) {
-                greater_tripods.add(data.get(i));
+        for (Tripod datum : data) {
+            if (datum.sum() > pivot.sum()) {
+                greater_tripods.add(datum);
             }
         }
         return greater_tripods;
@@ -77,21 +77,19 @@ public class QuickSort {
 
        ArrayList<Tripod> sorted_array = new ArrayList<>();
 
-        if (data.size() == 0) {
+        if (data.isEmpty()) {
             return data;
         } else {
-            Tripod pivot = data.get(0);
+            Tripod pivot = data.getFirst();
             ArrayList<Tripod> less = partitionLess(data, pivot);
             ArrayList<Tripod> equal = partitionEqual(data, pivot);
             ArrayList<Tripod> greater = partitionGreater(data, pivot);
-
             if (less.size() > 1) {
                 less = quickSort(less);
             }
             if (greater.size() > 1) {
                  greater = quickSort(greater);
             }
-
             sorted_array.addAll(less);
             sorted_array.addAll(equal);
             sorted_array.addAll(greater);

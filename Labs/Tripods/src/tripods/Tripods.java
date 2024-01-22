@@ -1,19 +1,15 @@
 package tripods;
-
 import sort.QuickSort;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Scanner;
 
 /**
  * A program that finds the optimal placement of a number of tripods in an
  * N * M grid of numbers.  A tripod can touch three adjacent cells, based on orientation,
  * e.g. a north facing tripod touches the east, south and west cells.
- *
  * The goal is to find the placement of a number of tripods, such that the
  * total sums of the cells that all combined tripods touch is maximum.
  *
@@ -29,7 +25,6 @@ public class Tripods {
     /**
      * Read the 2-D number grid into a 2 dimension native array. This method should
      * print the following to standard output:
-     *
      * Rows: #, Columns: #
      *
      * @param filename the file with the number grid
@@ -67,8 +62,7 @@ public class Tripods {
      * @param grid the 2-D grid of numbers
      * @return number of columns
      */
-    public static int getNumColumns(int[][] grid) {
-        return grid[0].length;
+    public static int getNumColumns(int[][] grid) { return grid[0].length;
     }
 
     /**
@@ -80,14 +74,13 @@ public class Tripods {
      * @return the maximum number of tripods that can placed in the grid
      */
     public static int getMaxTripods(int[][] grid) {
-        return grid[0].length * grid.length - 4;
+        return grid[0].length * grid.length - CORNERS;
     }
 
     /**
      * Display the grid to standard output, only if the number of cells is less
      * than or equal to MAX_CELLS_TO_DISPLAY.  If that size exceeds, print
      * "Too many cells to display" instead.  For example with tripods-3.txt:
-     *
      *  0 3 7 9
      *  2 5 1 4
      *  3 3 2 1
@@ -185,6 +178,36 @@ public class Tripods {
                 return 0;
         }
     }
+    public static ArrayList<Tripod> generateSums(int[][] grid) {
+        int x = getNumColumns(grid);
+        int y = getNumRows(grid);
+        ArrayList<Tripod> valid_tripods = new ArrayList<>();
+        for (int a = 0; a < y; a++) {
+            for (int b = 0; b < x; b++) {
+                ArrayList<Tripod> max_at_cord = new ArrayList<>();
+                for (Direction dir : Direction.values()) {
+                    if (isSpotValid(grid, a, b, dir)) {
+                        int tripod_sum = getSum(grid, a, b, dir);
+                        max_at_cord.add(new Tripod(a, b, dir, tripod_sum));
+                    }
+                }
+                if (!max_at_cord.isEmpty()) {
+                    QuickSort.quickSort(max_at_cord).reversed();
+                    valid_tripods.add(max_at_cord.getFirst());
+                }
+            }
+        }
+        return valid_tripods;
+    }
+
+    public static void displayOptimalPlacements(ArrayList<Tripod> tripods, int numTripods) {
+        int total_sum = 0;
+        for (int i = 0, j = tripods.size() - 1; i < numTripods; i++, j--) {
+            System.out.println(i + ": location: (" + tripods.get(j).row() + "," + tripods.get(j).col() + ", direction: " + tripods.get(j).dir() + ", sum: " + tripods.get(j).sum());
+            total_sum += tripods.get(i).sum();
+        }
+        System.out.println(total_sum);
+    }
 
     /**
      * The main program takes the file name from the command line.  It then
@@ -203,7 +226,21 @@ public class Tripods {
         } else {
             try {
                 int[][] grid = loadGrid(args[0]);
-                // TODO
+                displayGrid(grid);
+                Scanner count_input = new Scanner(System.in);
+                System.out.print("Number of tripods: ");
+                int tripod_count = count_input.nextInt();
+                if (tripod_count <= getMaxTripods(grid)) {
+                    ArrayList<Tripod> sorted_tripods = QuickSort.quickSort(generateSums(grid));
+                    displayOptimalPlacements(sorted_tripods, tripod_count);
+                    int sum_of_highest = 0;
+                    for (int i = 0; i < tripod_count; i++) {
+                        sum_of_highest += sorted_tripods.get(i).sum();
+                    }
+                    System.out.println("Total sum: " + sum_of_highest);
+                } else {
+                    System.out.println("Too many tripods to place!");
+                }
             } catch (IOException e) {
                 System.err.println(e.getMessage());
             }
