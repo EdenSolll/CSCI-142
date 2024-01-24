@@ -155,8 +155,8 @@ public class Tripods {
         boolean isBottomEdge = row == grid.length - 1;
         boolean isLeftEdge = col == 0;
         boolean isRightEdge = col == grid[0].length - 1;
-        boolean isEdge = isTopEdge || isBottomEdge || isLeftEdge || isRightEdge;
 
+        boolean isEdge = isTopEdge || isBottomEdge || isLeftEdge || isRightEdge;
         switch (dir) {
             case NORTH:
                 if (!isEdge || isBottomEdge) {
@@ -178,34 +178,56 @@ public class Tripods {
                 return 0;
         }
     }
+
+    /**
+     * This method generates an array of the best possible tripod at each coordinate
+     * on the grid.
+     *
+     * @param grid the 2-D grid of numbers
+     *
+     * @return An array of the highest sum tripod at each coordinate
+     */
     public static ArrayList<Tripod> generateSums(int[][] grid) {
         int x = getNumColumns(grid);
         int y = getNumRows(grid);
         ArrayList<Tripod> valid_tripods = new ArrayList<>();
         for (int a = 0; a < y; a++) {
             for (int b = 0; b < x; b++) {
-                ArrayList<Tripod> max_at_cord = new ArrayList<>();
+                int max_sum_at_coord = 0;
+                Direction max_dir = null;
                 for (Direction dir : Direction.values()) {
                     if (isSpotValid(grid, a, b, dir)) {
                         int tripod_sum = getSum(grid, a, b, dir);
-                        max_at_cord.add(new Tripod(a, b, dir, tripod_sum));
+                        if (tripod_sum > max_sum_at_coord) {
+                            max_sum_at_coord = tripod_sum;
+                            max_dir = dir;
+                        }
                     }
                 }
-                if (!max_at_cord.isEmpty()) {
-                    valid_tripods.add(QuickSort.quickSort(max_at_cord).getLast());
-                }
+                valid_tripods.add(new Tripod(a, b, max_dir, max_sum_at_coord));
             }
         }
         return valid_tripods;
     }
 
+    /**
+     * This method displays the desired amount of tripods listed in descending order of sum
+     * and finally displays the total sum of the displayed tripods.
+     *
+     * @param tripods the array of optimal tripods at each coordinate sorted from lowest to highest sum
+     * @param numTripods the number of tripods to display
+     *
+     * @rit.pre The array of tripods be sorted from lowest to highest
+    */
     public static void displayOptimalPlacements(ArrayList<Tripod> tripods, int numTripods) {
+        System.out.println("Optimal placement:");
         int total_sum = 0;
-        for (int i = 0, j = tripods.size() - 1; i < numTripods; i++, j--) {
-            System.out.println(i+1 + ": location: (" + tripods.get(j).row() + "," + tripods.get(j).col() + "), direction: " + tripods.get(j).dir() + ", sum: " + tripods.get(j).sum());
-            total_sum += tripods.get(j).sum();
+        for (int i = 0, x = tripods.size() - 1; i < numTripods; i++, x--) {
+            System.out.println(i+1 + ": location: (" + tripods.get(x).row() + "," + tripods.get(x).col() +
+                    "), direction: " + tripods.get(x).dir() + ", sum: " + tripods.get(x).sum());
+            total_sum += tripods.get(x).sum();
         }
-        System.out.println("Total sum: " +total_sum);
+        System.out.println("Total sum: " + total_sum);
     }
 
     /**
@@ -215,7 +237,7 @@ public class Tripods {
      * the optimal sum.  If the number of tripods does not exceed the
      * total number that can be placed, the optimal tripods by location
      * are generated, then sorted by descending sum and then displayed
-     * to the user.
+     e to the user.
      *
      * @param args command line arguments (unused)
      */

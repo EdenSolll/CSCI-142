@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Islands" type="Application" factoryName="Application" editBeforeRun="true">
+    <option name="MAIN_CLASS_NAME" value="islands.Islands" />
+    <module name="Islands" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/input" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="islands.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

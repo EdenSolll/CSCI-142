@@ -4,13 +4,13 @@ For each of the numbered problems:
 - State whether the problem occurs at compile-time or run-time
 - Briefly describe what the problem is in plain English
 
-1.
-2.
-3.
-4.
-5.
-6.
-7.
-8.
-9.
-10.
+1. No Errors: The program compiles and runs without error.
+2. Compile Error: String cannot be converted to int.
+3. Runtime Error: Division by zero.
+4. Compile Error: y is missing its type declaration.
+5. Compile Error: Missing returning statement if if statement is false.
+6. Runtime Error: Trying to access the 0th index of an empty array.
+7. Compile Error: Attempting to use a string as a char, change "" to ''.
+8. Compile Error: Variable j is not initialized.
+9. Compile Error: Cannot convert from double to float.
+10. Runtime Error: Substring index of 12 is out of range of string length.
