@@ -5,9 +5,12 @@ package islands;
  * identified by its row and column coordinates.
  *
  * @author RIT CS
- * @author YOUR NAME HERE
+ * @author Eden Grace
  */
 public class Cell {
+
+    private final Coordinates location;
+    private PlayerRole owner;
 
     /**
      * Create the cell with the given integer values as row and column.
@@ -17,7 +20,8 @@ public class Cell {
      * @param col the column
      */
     public Cell(int row, int col) {
-        // TODO
+        this.location = new Coordinates(row, col);
+        this.owner = PlayerRole.NONE;
     }
 
     /**
@@ -28,7 +32,7 @@ public class Cell {
      * @param player the owner that has claimed the cell
      */
     public void claim(PlayerRole player) {
-        // TODO
+        this.owner = player;
     }
 
     /**
@@ -37,8 +41,7 @@ public class Cell {
      * @return whether the cell has an owner
      */
     public boolean hasOwner() {
-        // TODO
-        return false;
+        return this.owner != PlayerRole.NONE;
     }
 
     /**
@@ -47,8 +50,7 @@ public class Cell {
      * @return the row
      */
     public int getRow() {
-        // TODO
-        return 0;
+        return this.location.getRow();
     }
 
     /**
@@ -57,8 +59,7 @@ public class Cell {
      * @return the column
      */
     public int getCol() {
-        // TODO
-        return 0;
+        return this.location.getCol();
     }
 
     /**
@@ -67,8 +68,7 @@ public class Cell {
      * @return the cell's location
      */
     public Coordinates getCoordinates() {
-        // TODO
-        return null;
+        return new Coordinates(this.getRow(),this.getCol());
     }
 
     /**
@@ -77,8 +77,7 @@ public class Cell {
      * @return the owner, islands.PlayerRole.NONE if not owned
      */
     public PlayerRole getOwner() {
-        // TODO
-        return null;
+        return this.owner;
     }
 
     /**
@@ -89,8 +88,11 @@ public class Cell {
      */
     @Override
     public boolean equals(Object other) {
-        // TODO
-        return false;
+        if (other instanceof Cell cell) {
+            return cell.getRow() == this.getRow() && cell.getCol() == this.getCol();
+        } else{
+            return false;
+        }
     }
 
     /**
@@ -105,7 +107,6 @@ public class Cell {
      */
     @Override
     public String toString() {
-        // TODO
-        return null;
+        return this.owner + ": (" + this.getRow() + "," + this.getCol() + ")";
     }
 }
