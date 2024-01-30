@@ -1,6 +1,8 @@
 package islands;
 
+import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class Island {
 
@@ -11,15 +13,13 @@ public class Island {
    }
 
    public Island(Cell cell) {
-       this.cells = new ArrayList<>();
-       this.cells.add(cell);
+       this.cells = new ArrayList<>(Arrays.asList(cell));
    }
 
    public void merge(Island island) {
-       for (Cell cell : island.cells) {
-           addCell(cell);
-       }
+       for (Cell cell : island.cells) addCell(cell);
    }
+
    public int size() {
        return this.cells.size();
    }
@@ -32,24 +32,28 @@ public class Island {
    }
 
    public boolean touchesBoardBoundaries(int rows, int cols, Direction direction) {
-       return false;
-   }
-
-   @Override
-   public boolean equals(Object other) {
-       if (other instanceof Island island) {
-           return this.cells.containsAll(island.cells) && island.cells.containsAll(this.cells);
+       ArrayList<Integer> occupied_rows = new ArrayList<>();
+       ArrayList<Integer> occupied_cols = new ArrayList<>();
+       for (Cell cell : cells) {
+           occupied_rows.add(cell.getRow());
+           occupied_cols.add(cell.getCol());
+       }
+       if (direction == Direction.VERTICAL) {
+           return (occupied_rows.contains(0) && occupied_rows.contains(rows - 1));
+       } else if (direction == Direction.HORIZONTAL) {
+           return (occupied_cols.contains(0) && occupied_cols.contains(cols - 1));
        } else {
            return false;
        }
    }
 
    @Override
-   public String toString() {
-       for (Cell cell : this.cells) {
-           return ("(" + cell.getRow() + "," + cell.getCol() + ")");
-       }
-       return null;
+   public boolean equals(Object other) {
+       return other instanceof Island island && this.cells.containsAll(island.cells) && island.cells.containsAll(this.cells);
    }
 
+   @Override
+   public String toString() {
+       return "Island{size:" + size() + "}" + (cells.isEmpty() ? "": "\n\t") + this.cells.stream().map(cell -> "(" + cell.getRow() + "," + cell.getCol() + ")").collect(Collectors.joining());
+   }
  }

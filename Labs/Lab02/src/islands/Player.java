@@ -4,14 +4,15 @@ import java.util.ArrayList;
 
 public class Player {
 
-  private final PlayerRole role = null;
+  private final PlayerRole role;
 
-private final ArrayList<Island> islands = null;
+  private final ArrayList<Island> islands = null;
 
-  private final Direction direction = null;
+  private final Direction direction;
 
   public Player(PlayerRole role, Direction direction) {
-    // TODO
+    this.direction = direction;
+    this.role = role;
   }
 
   public PlayerRole getRole() {
