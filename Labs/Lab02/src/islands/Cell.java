@@ -88,11 +88,7 @@ public class Cell {
      */
     @Override
     public boolean equals(Object other) {
-        if (other instanceof Cell cell) {
-            return cell.getRow() == this.getRow() && cell.getCol() == this.getCol();
-        } else{
-            return false;
-        }
+        return other instanceof Cell cell && cell.getRow() == this.getRow() && cell.getCol() == this.getCol();
     }
 
     /**
