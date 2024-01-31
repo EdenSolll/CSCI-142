@@ -55,16 +55,16 @@ public class GameBoard {
         }
         this.nextTurn();
     }
-    private boolean hasUnclaimedCell() {
-        for (int i = 0; i < this.rows; i++)
-            for (int x = 0; x < this.columns; x++) {
-                if (board[i][x].hasOwner()) {
+    private boolean hasUnclaimedCell(){
+        for(int i = 0; i < this.rows; i++){
+            for(int x = 0; x < this.columns; x++){
+                if(!this.board[i][x].hasOwner()){
                     return true;
                 }
+            }
         }
         return false;
     }
-
     public void displayIslands(PlayerRole playerRole) {
         if (playerRole == redPlayer.getRole()) {
             System.out.println(this.redPlayer.toString());
@@ -87,7 +87,7 @@ public class GameBoard {
         }
     }
 
-    /**
+/**
      * Return a string representation of the board, e.g. a 3x3 board:
      * <br><pre>
      *       0  1  2
